@@ -1,7 +1,7 @@
 # Expense Tracker — Project Context
 
 ## Overview
-A simple web-based expense tracking app built with FastAPI + SQLite + Jinja2 templates. Single-user, no authentication.
+A simple web-based expense tracking app built with FastAPI + SQLite + Jinja2 templates. Single-user, no authentication. Supports adding expenses, filtering by category and date, and viewing a summary of spending by category.
 
 ## Tech Stack
 - Python 3.11, FastAPI, SQLAlchemy 2.0, SQLite
@@ -29,11 +29,11 @@ docker compose up --build
 src/
 ├── __init__.py
 ├── main.py          # FastAPI app + routes
-├── config.py         # Settings
-├── database.py       # SQLAlchemy engine
-├── models.py         # Expense model
-├── schemas.py        # Pydantic schemas
-└── routes.py         # API endpoints
+├── config.py        # Settings
+├── database.py      # SQLAlchemy engine
+├── models.py        # Expense model
+├── schemas.py       # Pydantic schemas
+└── routes.py        # API endpoints
 templates/
 ├── base.html
 ├── index.html
@@ -43,7 +43,8 @@ static/
 └── style.css
 tests/
 ├── conftest.py
-└── test_*.py
+├── test_models.py
+└── test_routes.py
 ```
 
 ## Code Standards
@@ -55,7 +56,17 @@ tests/
 
 ## Database
 - SQLite file: expenses.db (gitignored)
-- Single table: expenses (id, amount, category, description, date, created_at)
+- Single table: `expenses`
+
+| Column      | Type     | Notes                                  |
+|-------------|----------|----------------------------------------|
+| id          | Integer  | primary key                            |
+| amount      | Float    | not null                               |
+| category    | String   | not null                               |
+| description | String   | nullable                               |
+| date        | Date     | not null, defaults to today            |
+| created_at  | DateTime | not null, timezone-aware UTC timestamp |
+
 - Categories: food, transport, shopping, entertainment, utilities, other
 
 ## IMPORTANT
