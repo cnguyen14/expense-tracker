@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Summary{% endblock %}
+
+{% block content %}
+<h1>Summary</h1>
+
+{% if by_category %}
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th class="num">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for category, amount in by_category.items() %}
+        <tr>
+            <td>{{ category|capitalize }}</td>
+            <td class="num">${{ "%.2f"|format(amount) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr class="total-row">
+            <td>Grand Total</td>
+            <td class="num">${{ "%.2f"|format(total) }}</td>
+        </tr>
+    </tfoot>
+</table>
+{% else %}
+<p class="empty-state">No expenses yet. <a href="/add">Add your first expense</a>.</p>
+{% endif %}
+{% endblock %}

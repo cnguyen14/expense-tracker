@@ -35,6 +35,14 @@ def _parse_date(value: str | None) -> date_type | None:
         raise HTTPException(status_code=400, detail=f"Invalid date: {value}") from exc
 
 
+@router.get("/add")
+def add_form(request: Request) -> Response:
+    """Render the add-expense form."""
+    if _template_exists("add.html"):
+        return templates.TemplateResponse(request, "add.html")
+    return JSONResponse({"detail": "add form"})
+
+
 @router.post("/add")
 def add_expense(
     amount: float = Form(...),
@@ -86,9 +94,9 @@ def list_expenses(
 
     if format != "json" and _template_exists("index.html"):
         return templates.TemplateResponse(
+            request,
             "index.html",
             {
-                "request": request,
                 "expenses": expenses,
                 "filters": {
                     "category": category,
@@ -130,7 +138,8 @@ def summary(
 
     if format != "json" and _template_exists("summary.html"):
         return templates.TemplateResponse(
+            request,
             "summary.html",
-            {"request": request, "by_category": by_category, "total": total},
+            {"by_category": by_category, "total": total},
         )
     return JSONResponse({"by_category": by_category, "total": total})
