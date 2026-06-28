@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persist the SQLite database outside the container.
+      - ./data:/app/data
+    environment:
+      # Point the app at the persisted database location.
+      - DATABASE_URL=sqlite:////app/data/expenses.db
+    restart: unless-stopped
